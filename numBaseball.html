@@ -1,0 +1,80 @@
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Number Baseball</title>
+</head>
+<body>
+    <form id="form">
+        <input type="text" name="" id="input">
+        <button>GO</button>
+    </form>
+    <div id="logs">
+    </div>
+    <script>
+        const $input = document.querySelector('#input');
+        const $form = document.querySelector('#form');
+        const $logs = document.querySelector('#logs');
+
+        const numbers = [];
+        for (let n = 1; n < 9; n += 1) {
+            numbers.push(n+1);
+        }
+        const answer = [];
+        for (let n = 0; n < 4; n += 1) {
+            const index = Math.floor(Math.random() * numbers.length); //0~8
+            answer.push(numbers[index]);
+            numbers.splice(index,1);
+        }
+        console.log(answer);
+
+        const tries = [];
+        function checkInput(input) {
+            if (input.length !== 4) {
+                return alert('4 numbers please');
+            }
+            if (new Set(input).size !==4) {
+                return alert('4 unique numbers');
+            }
+            if (tries.includes(input)) {
+                return alert('you already did it');
+            }
+            return true;
+        }
+
+        $form.addEventListener('submit', (event)=>{
+            event.preventDefault(); // no refresh
+            const value = $input.value; //event.target[0].value
+            $input.value = '';
+            if (!checkInput(value)) {
+                return;
+            }
+            if (answer.join('')==value) { //join nums together ''->without comma
+                $logs.textContent = 'homerun'
+                return;
+            } //split ==> str --> arr
+            if (tries.length>=9) {
+                const message = document.createTextNode(`you lose. the answer is ${answer.join('')}`);
+                $logs.appendChild(message); //append child is not used frequently
+                return;
+            }
+
+            let strike = 0;
+            let ball = 0;
+            for (let i = 0; i < answer.length; i++) {
+                const index = value.indexOf(answer[i]);
+                if (index > -1) {
+                    if (index === i) {
+                        strike += 1;
+                    } else {
+                        ball += 1;
+                    }
+                }
+            }
+            $logs.append(`${value}: ${strike} strike ${ball} ball`, document.createElement('br'));
+            tries.push(value);
+        })
+    </script>
+</body>
+</html>
