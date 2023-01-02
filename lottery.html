@@ -49,17 +49,16 @@
       $ball.className = 'ball'; //html --> .class , JS --> .className
       $ball.textContent = num;
       $target.append($ball); //appendChild
-
     };
 
-    for (let i = 0; i < 6; i++) {
+    for (let i = 0; i < winBalls.length; i++) {
       setTimeout(() => {
         showBall(winBalls[i],$result)
       }, 1000 * i + 1000);
     }
     setTimeout(() => {
       showBall(bonus,$bonus)
-    }, 7000);
+    }, 7000); //not perfect
 
     
   </script>
