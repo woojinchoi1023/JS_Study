@@ -4,6 +4,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Number Baseball</title>
+    <link rel="stylesheet" href="./numBaseball.css">
 </head>
 <body>
     <form id="form">
@@ -12,6 +13,7 @@
     </form>
     <div id="logs">
     </div>
+
     <script>
         const $input = document.querySelector('#input');
         const $form = document.querySelector('#form');
@@ -62,6 +64,7 @@
 
             let strike = 0;
             let ball = 0;
+            let out = 0;
             for (let i = 0; i < answer.length; i++) {
                 const index = value.indexOf(answer[i]);
                 if (index > -1) {
@@ -72,8 +75,19 @@
                     }
                 }
             }
-            $logs.append(`${value}: ${strike} strike ${ball} ball`, document.createElement('br'));
-            tries.push(value);
+            if (!(ball === 0 && strike ===0)) { //NOT out
+                $logs.append(`${value}: ${strike} strike ${ball} ball`, document.createElement('br'));
+                tries.push(value);
+                return;
+            }  //out
+            if (out===2) { //if 3 OUT
+                $logs.append('3 out, you lose', document.createElement('br'));
+                tries.push(value);
+            } else { //not 3 OUT
+                out += 1;
+                $logs.append(`${value}: ${out} out!!`, document.createElement('br'));
+                tries.push(value);
+            }
         })
     </script>
 </body>
