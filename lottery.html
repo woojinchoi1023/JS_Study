@@ -43,12 +43,23 @@
 
     const $result = document.querySelector('#result');
     const $bonus = document.querySelector('#bonus');
+
+    function colorize(num,$tag) {
+      if (num<10) {
+        $tag.style.backgroundColor = 'red';
+        $tag.style.color = 'white'
+      } else {
+        $tag.style.backgroundColor = 'blue';
+        $tag.style.color = 'green'
+      }
+    }
   
     const showBall = (num, $target) => {
       const $ball = document.createElement('div');
       $ball.className = 'ball'; //html --> .class , JS --> .className
       $ball.textContent = num;
       $target.append($ball); //appendChild
+      colorize(num, $ball)
     };
 
     for (let i = 0; i < winBalls.length; i++) {
