@@ -1,0 +1,84 @@
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>반응속도</title>
+    <style>
+      #screen {
+        width: 300px;
+        height: 200px;
+        text-align: center;
+        user-select: none;
+      }
+      #screen.waiting {
+        background-color: aqua;
+      }
+      #screen.ready {
+        background-color: red;
+        color: white;
+      }
+      #screen.now {
+        background-color: greenyellow;
+      }
+    </style>
+    </head>
+<body>
+  <div id="screen" class="waiting">클릭해서 시작하세요</div>
+  <div>Average = <span id="average"></span></div>
+  <div>TOP5 = <span id="topFive"></span></div>
+  <div id="result"></div>
+  <script>
+    const $screen = document.querySelector('#screen');
+    const $result = document.querySelector('#result');
+    const $average = document.querySelector('#average');
+    const $topFive = document.querySelector('#topFive');
+    let startTime;
+    let endTime;
+    let timeRecord;
+    let records = [];
+    let timeoutId;
+
+    // $screen.className; //waiting. 여러개 -> classList.contains
+
+    $screen.addEventListener('click',(event)=>{
+      if(event.target.classList.contains('waiting')) {
+        event.target.className = 'ready';
+        $screen.textContent = 'wait until green'
+        randomTime = Math.random() * 3 * 1000
+        console.log(randomTime)
+        timeoutId = setTimeout(() => {
+          event.target.className = 'now';
+          $screen.textContent = 'click now'
+          //time record start
+          startTime = new Date();
+        }, randomTime);
+      } else if (event.target.classList.contains('ready')) {
+        event.target.className = 'waiting';
+        clearTimeout(timeoutId);
+        $result.append('you clicked too early', document.createElement('br'))
+      } else if (event.target.classList.contains('now')) {
+        //time record stop
+        endTime = new Date();
+        timeRecord = (endTime - startTime)/1000;
+        records.push(timeRecord);
+        const average = records.reduce((a,c) => a + c) / records.length;
+        $average.textContent = average
+        $result.append(`your record is ${timeRecord}`,document.createElement('br'))
+        event.target.className = 'waiting';
+        $screen.textContent = 'click to start'
+
+        //top 5
+        records.sort((a,b) => a - b )
+        $topFive.textContent = '';
+        for (let i = 0; i < 5; i++) {
+          $topFive.append(records[i], ' ')
+        }
+        // const answerFive = records.sort((p,c) => p - c).slice(0,5);
+        // answerFive.forEach((top,index) => {
+        //   $result.append(document.createElement('br'), `${index+1}위, ${top}ms`)
+        // })
+      }
+    })
+
+  </script>
+</body>
+</html>
