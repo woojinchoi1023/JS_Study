@@ -10,19 +10,21 @@
     <header>
       <!-- center align -->
       <div class="center-align">
-        <div>
-          <span>네이버를 시작페이지로</span>
+        <div id="header-top">
+          <span>네이버를 시작페이지로 | 쥬니어 네이버</span>
         </div>
         <div id="header-search">
           <a href="https://www.naver.com">
             <h1>
-              <span>네이버</span>
+              <span class="blind">네이버</span>
             </h1>
           </a>
           <h2 class="blind">검색창</h2>
           <fieldset>
             <legend class="blind">검색</legend>
             <input type="text"/>
+            <span id="search-keyboard"></span>
+            <span id="search-history"></span>
             <button>
               <span class="blind">검색</span>
               <span class="search-image"></span>
@@ -34,7 +36,12 @@
 
     <nav> 
       <!-- navigator -->
-      <div class="center-align">
+      <div class="center-align relative">
+        <div id="search-ranking">
+          <h2 class="blind">실시간 검색어</h2>
+          <span id="rank-number">1</span>
+          <span id="rank-title">기모찌</span>
+        </div>
         <ul>
           <!-- unordered list -->
           <li><a href=""><span></span><span class="blind">메일</span></a></li>
@@ -43,11 +50,12 @@
           <li><a href=""><span></span><span class="blind">지식인</span></a></li>
           <li><a href=""><span></span><span class="blind">쇼핑</span></a></li>
         </ul>
+        <div class="nav-divider"></div>
       </div>
+
     </nav>
 
     <main>
-      <h3>실시간검색어</h3>
       <h3>연합뉴스</h3>
       <ol>
         <li>a</li>

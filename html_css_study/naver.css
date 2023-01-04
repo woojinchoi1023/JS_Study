@@ -8,6 +8,7 @@
 body {
   margin: 0;
   padding: 0;
+  font-family: Dotum,'돋움',Helvetica,"Apple SD Gothic Neo",sans-serif;
 }
 
 
@@ -20,12 +21,36 @@ body {
   height: 1px;
 }
 
+.relative {
+  position: relative;
+}
+
 .center-align {
   margin: 0 auto;
   width: 1080px;
 }
 /* div  can be skipped. only div. use comma*/
 /* cascading style sheet */
+
+header {
+  height: 170px;
+}
+
+#header-top {
+  float: right;
+}
+
+#header-top span:first-child {
+  color: #888;
+  letter-spacing: -1px;
+  font-size: 11px;
+  line-height: 22px;
+}
+
+#header-search {
+  clear: both;
+  padding-top: 10px;
+}
 
 #header-search a {
   text-decoration: none;
@@ -70,7 +95,7 @@ div#header-search h1 {
   border: none;
   padding: 0;
   outline: none;
-  width: 405px;
+  width: 390px;
   height: 23px;
 }
 #header-search fieldset button {
@@ -80,9 +105,32 @@ div#header-search h1 {
   padding: 0;
   background: #03cf5d;
   position: absolute;
-  right: -2px;
+  right: -1px;
   top: -2px;
 }
+
+#search-keyboard {
+  background-image: url(https://s.pstatic.net/static/www/img/uit/2019/sp_search.svg);
+  background-repeat: no-repeat;
+  background-position: -33px -60px;
+  width: 19px;
+  height: 11px;
+  display: inline-block;
+  margin: 0 6px;
+  vertical-align: middle;
+}
+
+#search-history {
+  background-image: url(https://s.pstatic.net/static/www/img/uit/2019/sp_search.svg);
+  background-repeat: no-repeat;
+  background-position: -87px -60px;
+  width: 9px;
+  height: 4px;
+  display: inline-block;
+  margin: 0 6px;
+  vertical-align: middle;
+}
+
 
 #header-search fieldset button .search-image {
   background-image: url(./sp_search.png);
@@ -93,9 +141,18 @@ div#header-search h1 {
   display: inline-block;
 }
 
+nav {
+  
+  height: 46px;
+  border-top: 1px solid #d1d8e4;
+  border-bottom: 1px solid #d1d8e4;
+
+}
+
 nav ul {
+  display: inline-block;
   margin: 0;
-  padding: 0;
+  padding: 10px 0 0 4px;
   list-style: none;
 }
 
@@ -122,4 +179,24 @@ nav li:nth-child(2) span:first-child {
   height: 20px;
   background-position: -209px -267px;
   margin-left: 14px;
+}
+
+.nav-divider {
+  display: inline-block;
+  margin: 18px 16px 0;
+  width: 1px;
+  height: 14px;
+  background: #ebeef3;
+}
+
+#search-ranking {
+  position: absolute;
+  top: 12px;
+  right: 100px;
+}
+
+#rank-number {
+  margin-top: -9px;
+  color: #00ab33;
+  font-size: 16px;
 }
