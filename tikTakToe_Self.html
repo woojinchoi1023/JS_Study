@@ -1,0 +1,144 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tik Tac Toc</title>
+  <style>
+    table {
+      border-collapse: collapse;
+    }
+  
+    td {
+      border: 1px solid black;
+      width: 40px;
+      height: 40px;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+<script>
+  const { body } = document;
+  const $table = document.createElement('table');
+  const $result = document.createElement('div');
+  const rows = [];
+  let turn = 'O';
+  let turnCount = 1;
+
+  const CheckWinner = (target) => {
+    let rowIndex = target.parentNode.rowIndex;
+    let cellIndex = target.cellIndex;
+    // rows.forEach((row, ri) => {
+    //   row.forEach((cell, ci) => {
+    //     if (cell === target) {
+    //       rowIndex = ri;
+    //       cellIndex = ci;
+    //     }
+    //   })
+    // });
+    let hasWinner = false;
+    //check row
+    if (
+      rows[rowIndex][0].textContent === turn &&
+      rows[rowIndex][1].textContent === turn &&
+      rows[rowIndex][2].textContent === turn
+    ) {
+      hasWinner = true;
+    }
+    //check column
+    if (
+      rows[0][cellIndex].textContent === turn &&
+      rows[1][cellIndex].textContent === turn &&
+      rows[2][cellIndex].textContent === turn 
+    ) {
+      hasWinner = true;
+    }
+    //check diagonal 
+    if (
+      (rows[0][0].textContent === turn &&
+      rows[1][1].textContent === turn &&
+      rows[2][2].textContent === turn ) ||
+      (
+        rows[0][2].textContent === turn &&
+        rows[1][1].textContent === turn &&
+        rows[2][0].textContent === turn
+      )
+    ) {
+      hasWinner = true;
+    }
+    return hasWinner;
+  }
+  let ri;
+  let ci;
+
+  const computerTurn = () => {
+    let flatRows = rows.flat()
+    let emptyIndex = [];
+    let computerChoice = null;
+    flatRows.forEach((v, i) => {
+      if (!v.textContent) {
+        emptyIndex.push(i);
+      }
+    })
+    computerChoice = emptyIndex[Math.floor(Math.random() * emptyIndex.length)];
+    console.log('computerChoice = ',computerChoice)
+    rows.flat()[computerChoice].textContent = 'X';
+
+    ri = Math.floor(computerChoice/3)
+    ci = computerChoice%3
+    
+    turn = 'X'
+    if (CheckWinner(rows[ri][ci])) {
+      $result.textContent = `Computer wins!`;
+      $table.removeEventListener('click', callback); //bubbling
+      return;
+    };
+    console.log('not done!')
+    turnCount += 1;
+    turn = 'O'
+
+    
+    return;
+  }
+
+  const callback = (event) => {
+    //does a letter exist in the box?
+    if (event.target.textContent) return; //exist, stop
+    event.target.textContent = turn; // empty, keep going
+    //check winner
+    if (CheckWinner(event.target)) {
+      $result.textContent = `${turn} player wins!`;
+      $table.removeEventListener('click', callback); //bubbling
+      return;
+    };
+    //tie check
+    if ( turnCount === 9 ) {
+      $result.textContent = 'TIE' 
+      return;
+    }
+    turnCount += 1;
+
+    computerTurn();
+
+    //event.currentTarget : X
+    //event.stopPropagation
+  }
+  
+  for (let i = 0; i < 3; i++) {
+    const $tr = document.createElement('tr');
+    const cells = [];
+    for(let j = 0; j < 3; j++) {
+      const $td = document.createElement('td');
+      cells.push($td);
+      $tr.append($td); 
+    }
+    $table.append($tr);
+    rows.push(cells);
+  }
+  $table.addEventListener('click', callback); //event bubbling 
+  body.append($table);
+  body.append($result);
+</script>
+</body>
+</html>
