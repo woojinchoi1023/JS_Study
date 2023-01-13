@@ -50,19 +50,36 @@
     </style>
   </head>
   <body>
+    <div><span id="time-record"></span></div>
+    <form id="how-many">
+      <input type="number" id="how-many-input" placeholder="How many cards? 12~20">
+      <button id="game-start">Start</button>
+    </form>
+    <br>
     <div id="wrapper"></div>
+
     <script>
       const $wrapper = document.querySelector("#wrapper");
-      const total = 12;
-      const colors = ["red", "orange", "yellow", "green", "white", "pink"];
-      let colorCopy = colors.concat(colors); //twice
+      const $howMany = document.querySelector("#how-many");
+      const colors = ["red", "orange", "yellow", "green", "white", "pink", "purple", "aqua", "skyblue", "gray"];
+      // let colorCopy = colors.concat(colors); //twice
+      let colorCopy = [];
+      let selectedColors = [];
+      let total = 12;
       let shuffled = [];
       let clicked = [];
       let completed = [];
       let clickable = false;
+      let startTime;
+      let endTime;
 
       function shuffle() {
         // 피셔-예이츠 셔플
+        colorCopy = colors.concat();
+        colorCopy = colorCopy.slice(0,total/2);
+        console.log(colorCopy);
+        colorCopy = colorCopy.concat(colorCopy);
+        
         for (let i = 0; colorCopy.length > 0; i += 1) {
           const randomIndex = Math.floor(Math.random() * colorCopy.length);
           shuffled = shuffled.concat(colorCopy.splice(randomIndex, 1));
@@ -112,10 +129,12 @@
             return;
         },500)
         }
-        setTimeout(()=>{
+        clickable = false;
+        setTimeout(()=>{ //비동기이기 때문에 버그가 발생한다. eventLoop 과 호출스택
           clicked[0].classList.remove("flipped");
           clicked[1].classList.remove("flipped");
           clicked = [];
+          clickable = true;
         }, 500)
       }
 
@@ -142,16 +161,35 @@
           });
           clickable = true;
         }, 5000);
+        startTime = new Date();
+        setTimeout(() => {
+          document.querySelector("#time-record").textContent = `Start time = ${startTime}`
+        }, 1000 + 100 * total);
       }
-      startGame();
+
+      //RUN
+      howManyCards();
 
       function resetGame() {
         $wrapper.innerHTML = '';
-        colorCopy = colors.concat(colors); //NOT change the former
         shuffled = [];
         completed = [];
-        startGame();
+        howManyCards();
       }
+
+      function howManyCards() {
+        $howMany.addEventListener("submit", (event) => {
+          event.preventDefault();
+          total = event.target["how-many-input"].value;
+          if (total % 2 === 0) {
+            $howMany.style.display = "none";
+            startGame();
+          };
+          
+        })
+      }
+
+      
     </script>
   </body>
 </html>
