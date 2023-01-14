@@ -76,7 +76,7 @@
       function shuffle() {
         // 피셔-예이츠 셔플
         colorCopy = colors.concat();
-        colorCopy = colorCopy.slice(0,total/2);
+        colorCopy = colorCopy.slice(0, total / 2);
         console.log(colorCopy);
         colorCopy = colorCopy.concat(colorCopy);
         
@@ -160,11 +160,10 @@
             card.classList.remove("flipped");
           });
           clickable = true;
-        }, 5000);
-        startTime = new Date();
-        setTimeout(() => {
+          startTime = new Date();
           document.querySelector("#time-record").textContent = `Start time = ${startTime}`
-        }, 1000 + 100 * total);
+        }, 5000);
+       
       }
 
       //RUN
