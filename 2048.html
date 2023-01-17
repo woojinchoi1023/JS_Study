@@ -7,8 +7,8 @@
   <style>
     #table { border-collapse: collapse; user-select: none; }
     #table td {
-      border: 10px solid #bbada0; width: 116px; height: 128px;
-      font-size: 50px; font-weight: bold; text-align: center;
+      border: 8px solid #bdb0a3; width: 58px; height: 64px;
+      font-size: 30px; font-weight: bold; text-align: center;
     }
     #score { user-select: none; } 
     .color-2 { background-color: #eee4da; color: #776e65;}
@@ -77,6 +77,116 @@
       });
     }
     startGame();
+
+    data = [
+      [0,2,4,2],
+      [0,0,8,0],
+      [2,2,2,2],
+      [0,16,0,4]
+    ]
+    draw();
+    
+
+    function moveCells(direction) {
+      const newData = [[], [], [], []];
+      switch(direction) {
+        case 'left':
+          data.forEach((rowData, i) => {
+            rowData.forEach((cellData, j) => {
+              if (cellData) { //cellData 가 있으면 (0이 아니면)
+                newData[i].push(cellData);
+              }
+            });
+          });
+          newData.forEach((rowData, i) => {
+            rowData.forEach((cellData, j) => {
+              const val = newData[i][j]
+              if (newData[i][j] === newData[i][j+1] && newData[i][j] !== 0) {
+                newData[i][j] = val * 2; //합치기
+                newData[i][j + 1] = 0;
+                if (newData[i][j - 1] === 0) { //합치고 나서 다시 밀기
+                  newData[i][j - 1] = newData[i][j];
+                  newData[i][j] = 0;
+                }
+              }
+            });
+          });
+          [1, 2, 3, 4].forEach((rowData, i) => {
+            [1, 2, 3, 4].forEach((cellData, j) => {
+              data[i][j] = newData[i][j] || 0;
+            });
+          })
+          break;
+        case 'right':
+          console.log('rightmove!')
+          data.forEach((rowData, i) => {
+            rowData.forEach((cellData, j) => {
+              if (cellData) { //0이 아니면 오른쪽에 값을 넣는다
+                newData[i].push(cellData);
+              } else { //0이면 왼쪽에 0을 넣는다
+                newData[i].unshift(0);
+              }
+            });
+          });
+          [1, 2, 3, 4].forEach((rowData, i) => {//합치기
+            [1, 2, 3, 4].forEach((cellData, j) => {
+              if (newData[i][j] === newData[i][j + 1]) {
+                const val = newData[i][j]
+                newData[i][j + 1] = val * 2;
+                newData[i][j] = 0;
+              }
+            });
+            [1, 2, 3, 4].forEach((cellData, j) => { //합치고 나서 다시 밀기
+              if (newData[i][j + 1] === 0 && newData[i][j] !== 0) { 
+                  newData[i][j + 1] = newData[i][j];
+                  newData[i][j] = 0;
+                }
+            });
+            [1, 2, 3, 4].forEach((cellData, j) => { //newdata --> data
+              data[i][j] = newData[i][j] || 0;
+            });
+          })
+          break;
+        case 'up':
+          break;
+        case 'down':
+          break;
+      }
+      put2ToRandomCell();
+      draw();
+    }
+
+    window.addEventListener('keyup', (event) => { //키보드를 떼는 순간
+      if (event.key === 'ArrowUp') {
+        moveCells('up');
+      } else if (event.key === 'ArrowDown') {
+        moveCells('down');
+      } else if (event.key === 'ArrowLeft') {
+        moveCells('left');
+      } else if (event.key === 'ArrowRight') {
+        moveCells('right');
+      }
+    })
+    
+    let startCoord;
+    window.addEventListener('mousedown', (event) => {
+      startCoord = [event.clientX, event.clientY];
+    });
+    window.addEventListener('mouseup', (event) => {
+      const endCoord = [event.clientX, event.clientY];
+      const diffX = endCoord[0] - startCoord[0];
+      const diffY = endCoord[1] - startCoord[1];
+      if (diffX < 0 && Math.abs(diffX) > Math.abs(diffY)) {
+        moveCells('left');
+      } else if (diffX > 0 && Math.abs(diffX) > Math.abs(diffY)) {
+        moveCells('right');
+      } else if (diffY > 0 && Math.abs(diffX) <= Math.abs(diffY)) {
+        moveCells('down');
+      } else if (diffY < 0 && Math.abs(diffX) <= Math.abs(diffY)) {
+        moveCells('up');
+      }
+    });
+
   </script>
 </body>
 </html>
