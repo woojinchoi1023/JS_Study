@@ -27,10 +27,12 @@
 <body>
   <table id="table"></table>
   <div id="score">0</div>
+  <div><button id="rollback">back</button></div>
   <script>
     const $table = document.getElementById('table');
     const $score = document.getElementById('score');
     let data = [];
+    let tempData = [[], [], [], []];
 
     // $table --> $fragment --> $tr ---> $td
     function startGame() {
@@ -61,6 +63,7 @@
       });
       const randomCell = emptyCells[Math.floor(Math.random() * emptyCells.length)];
       data[randomCell[0]][randomCell[1]] = 2;
+      console.log('random cell = ', randomCell[0], randomCell[1]);
     }
     function draw() {
       data.forEach((rowData, i) => {
@@ -78,17 +81,40 @@
     }
     startGame();
 
+    // data = [
+    //   [0,2,4,2],
+    //   [0,0,8,0],
+    //   [2,2,2,2],
+    //   [0,16,0,4]
+    // ]
     data = [
-      [0,2,4,2],
-      [0,0,8,0],
-      [2,2,2,2],
-      [0,16,0,4]
+      [2,0,2,2],
+      [0,4,2,2],
+      [0,4,8,2],
+      [2,8,16,2]
     ]
+    
     draw();
+
+    function checkChange(preData, data) {
+      for (let i = 0; i < data.length ; i++)
+          if (preData[i] !== data[i]) {
+            return true;
+          }
+        
+      return false;
+    }
     
 
     function moveCells(direction) {
+      const preData = data.flat();
       const newData = [[], [], [], []];
+      tempData = [[], [], [], []];
+      data.forEach((rowData, i) => { //backup
+        rowData.forEach((cellData, j) => {
+          tempData[i].push(cellData);
+        })
+      });
       switch(direction) {
         case 'left':
           data.forEach((rowData, i) => {
@@ -118,7 +144,6 @@
           })
           break;
         case 'right':
-          console.log('rightmove!')
           data.forEach((rowData, i) => {
             rowData.forEach((cellData, j) => {
               if (cellData) { //0이 아니면 오른쪽에 값을 넣는다
@@ -148,12 +173,91 @@
           })
           break;
         case 'up':
+          data.forEach((rowData, i) => {
+            rowData.forEach((cellData, j) => {
+              if (cellData) { //안비었으면 푸시
+                newData[i].push(cellData)
+              } else if (data[i + 1]?.[j]) {// 비었으면 바로 밑 확인
+                  newData[i].push(data[i + 1][j])
+                  data[i + 1][j] = 0; 
+              } else if (data[i + 2]?.[j]) {//또 비었으면 바로 밑 확인
+                  newData[i].push(data[i + 2][j])
+                  data[i + 2][j] = 0;
+              } else if (data[i + 3]?.[j]) {//또 비었으면 바로 밑 확인
+                  newData[i].push(data[i + 3][j])
+                  data[i + 3][j] = 0; 
+              } else { //다 0 인 경우, 걍 0 넣기
+                newData[i].push(0)
+              }
+            })
+          })
+          console.log(newData)
+          data.forEach((rowData, i) => {//합치기
+            [1, 2, 3, 4].forEach((cellData, j) => {
+              if (newData[i][j] === newData[i + 1]?.[j]) {
+                newData[i][j] = newData[i][j] * 2;
+                newData[i + 1][j] = 0;
+              }
+            })
+              data.forEach((cellData, j) => { //합치고 나서 다시 밀기
+              if (newData[i][j] === 0 && newData[i + 1]?.[j]) { 
+                  newData[i][j] = newData[i + 1][j];
+                  newData[i + 1][j] = 0;
+                }
+            });
+            data.forEach((cellData, j) => { //newdata --> data
+              data[i][j] = newData[i][j] || 0;
+            });
+          })
           break;
         case 'down':
+          data.forEach((rowData, i) => {  //13 i = 2 j =3
+              rowData.forEach((cellData, j) => {
+                if (data[3 - i][j]) { //왼쪽 밑부터 오른쪽으로 확인, 안비었으면 푸시
+                  newData[3 - i].push(data[3 - i][j])
+                } else if (data[2 - i]?.[j]) {// 비었으면 바로 위 확인
+                    newData[3 - i].push(data[2 - i][j])
+                    data[2 - i][j] = 0; 
+                } else if (data[1 - i]?.[j]) {//또 비었으면 바로 위 확인
+                    newData[3 - i].push(data[1 - i][j])
+                    data[1 - i][j] = 0;
+                } else if (data[ - i]?.[j]) {//또 비었으면 바로 위 확인
+                    newData[3 - i].push(data[ - i][j])
+                    data[ - i][j] = 0; 
+                } else { //다 0 인 경우, 걍 0 넣기
+                  newData[3 - i].push(0)
+                }
+              })
+            })
+          data.forEach((rowData, i) => {  //23
+            [1, 2, 3, 4].forEach((cellData, j) => { // 합치기
+              if (newData[3 - i][j] === newData[2 - i]?.[j] && newData[3 - i][j]) {
+                console.log('실행', i, j)
+                newData[3 - i][j] = newData[3 - i][j] * 2;
+                newData[2 - i][j] = 0;
+              }
+            })
+            data.forEach((cellData, j) => { //합치고 나서 다시 밀기
+              if (newData[4 - i]?.[j] === 0 && newData[3 - i]?.[j]) { //밑에 비었나 확인
+                  newData[4 - i][j] = newData[3 - i][j];
+                  newData[3 - i][j] = 0;
+                }
+            });
+          })
+          newData.forEach((rowData, i) => {
+            rowData.forEach((cellData, j) => {
+              data[i][j] = cellData;
+            })
+          });
           break;
       }
-      put2ToRandomCell();
-      draw();
+        if (checkChange(preData, data.flat())) { //변화 있으면 true 없으면 false
+        put2ToRandomCell();
+        draw();
+      } else {
+        console.log('you cannot move that way');
+      }
+      
     }
 
     window.addEventListener('keyup', (event) => { //키보드를 떼는 순간
@@ -166,6 +270,19 @@
       } else if (event.key === 'ArrowRight') {
         moveCells('right');
       }
+    })
+    document.querySelector('#rollback').addEventListener('click', () => {
+      if (tempData[0].length === 0) {
+        return;
+      }
+      data = [[], [], [], []];
+      tempData.forEach((rowData, i) => { //rollback
+        rowData.forEach((cellData, j) => {
+          data[i].push(cellData);
+        })
+      });
+      tempData = [[], [], [], []];
+      draw();
     })
     
     let startCoord;
