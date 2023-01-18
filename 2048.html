@@ -130,10 +130,10 @@
               if (newData[i][j] === newData[i][j+1] && newData[i][j] !== 0) {
                 newData[i][j] = val * 2; //합치기
                 newData[i][j + 1] = 0;
-                if (newData[i][j - 1] === 0) { //합치고 나서 다시 밀기
-                  newData[i][j - 1] = newData[i][j];
-                  newData[i][j] = 0;
-                }
+              }
+              if (newData[i][j - 1] === 0) { //합치고 나서 다시 밀기
+                newData[i][j - 1] = newData[i][j];
+                newData[i][j] = 0;
               }
             });
           });
