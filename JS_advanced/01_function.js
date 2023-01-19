@@ -31,3 +31,18 @@ function a() {
 
 a(); //a b c
 c(); // c
+
+//callStack, Background, TaskQue
+
+//ScopeChain
+
+//hoisting = const X, var O, func O,
+//let ? const ? hoisting ?? TDZ Temporal dead zone
+
+//this --> window
+//use strict --> this = undefined
+//this --> 함수가 호출될 때 정해진다
+//객체 --> this가 바뀐다. obj로.
+//단! 화살표함수 -> 부모의 this
+//new --> 자기자신
+//.bind (만들기만) .call(만들고 호출) .apply(만들고 호출) ---> this를 바꿔준다

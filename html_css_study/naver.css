@@ -11,6 +11,9 @@ body {
   font-family: Dotum,'돋움',Helvetica,"Apple SD Gothic Neo",sans-serif;
 }
 
+.inline-block {
+  display: inline-block;
+}
 
 .blind {
   position: absolute;
@@ -199,4 +202,107 @@ nav li:nth-child(2) span:first-child {
   margin-top: -9px;
   color: #00ab33;
   font-size: 16px;
+}
+
+main {
+  background-color: #f2f4f7;
+  display: inline-block;
+  width: 100%;
+}
+
+#main-centered {
+  padding: 8px 10px 0;
+  width: 1100px;
+  display: inline-block;
+  width: 100%;
+}
+
+#main-first-block {
+  display: inline-block;
+  width: 100%;
+}
+
+#main-ad {
+  width: 740px;
+  height: 120px;
+  background: #555;
+  margin-right: 8px;
+  margin-bottom: 8px;
+  float: left;
+}
+
+#main-login {
+  width: 332px;
+  height: 120px;
+  vertical-align: top;
+  background: white;
+  margin-bottom: 8px;
+  float: left;
+
+}
+
+#main-ytn {
+  display: inline-block;
+  width: 740px;
+  height: 46px;
+  background: white;
+  margin-right: 8px;
+  margin-bottom: 8px;
+
+}
+
+#main-newsstand {
+  display: inline-block;
+  width: 740px;
+  height: 246px;
+  background: white;
+  margin-right: 8px;
+  margin-bottom: 8px;
+
+}
+
+#main-weather {
+  display: inline-block;
+  width: 332px;
+  height: 142px;
+  background: white;
+  margin-bottom: 8px;
+
+}
+
+#main-second-ad {
+  display: inline-block;
+  width: 332px;
+  height: 150px;
+  background: #555;
+  margin-bottom: 8px;
+}
+
+#main-category {
+  display: inline-block;
+  width: 740px;
+  height: 837px;
+  background: white;
+}
+
+#main-shopping {
+  display: inline-block;
+  width: 332px;
+  height: 837px;
+  background: white;
+}
+
+#main-event {
+  display: inline-block;
+  width: 332px;
+  height: 130px;
+  background: white;
+  vertical-align: top;
+}
+
+#main-third-ad {
+  display: inline-block;
+  width: 332px;
+  height: 130px;
+  background: #555;
 }
