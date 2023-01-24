@@ -1,0 +1,53 @@
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>WEBGAME</title>
+</head>
+<body>
+<div id="root"></div>
+<script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+<script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+<!--<script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>-->
+<!--<script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>-->
+<script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+
+<script type="text/babel">
+
+  'use strict';
+  
+  // class LikeButton extends React.Component {
+  //   constructor(props) {
+  //     super(props);
+  //     this.state = {liked: false};
+  //   }
+  //   render() { //return --> 화면
+  //     if (this.state.liked) {
+  //       return 'You liked this';
+  //     }
+
+  //     return ( //리턴 안에는 태그 하나 . frag라도
+  //       <button onClick={() => this.setState({liked: true})}>
+  //         Like
+  //       </button>
+  //     );
+  //   }
+  // }
+
+    function LikeButton() {
+      const [liked, setLiked] = React.useState(false); //구조분해
+      //뭔 짓을 하든, 결국 리턴 한 것이 화면이다
+      if (liked) {
+        return 'You liked this';
+      }
+      return (
+        <button onClick={() => { setLiked(true); }}>Like</button>
+      );
+    }
+
+</script>
+<script type="text/babel">
+  // ReactDOM.render(<LikeButton/>, document.querySelector('#root')); //17버전
+  ReactDOM.createRoot(document.querySelector('#root')).render(<LikeButton/>);
+</script>
+</body>
+</html>
