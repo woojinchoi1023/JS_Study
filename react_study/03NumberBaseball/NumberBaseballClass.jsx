@@ -1,4 +1,4 @@
-import React from "react";
+import React, { createRef } from "react";
 import { Component } from "react";
 import Try from './Try';
 
@@ -65,6 +65,7 @@ class NumberBaseball extends Component {
             result:  `${strike} Strike ${ball} Ball`,
           }
         })
+        this.inputRef.current.focus();
       }
     }
   }
@@ -75,6 +76,9 @@ class NumberBaseball extends Component {
       value: e.target.value,
     });
   };
+
+  inputRef = createRef(); //createRef --> current를 써야함
+
 
   fruits = [
     {fruit: '사과', taste: '맛있다'}, 
@@ -89,7 +93,7 @@ class NumberBaseball extends Component {
       <>
         <h1>{this.state.result}</h1>
         <form onSubmit={this.onSubmitForm}>
-          <input maxLength={4} value={this.state.value} onChange={this.onChangeInput}></input>
+          <input ref={this.inputRef} maxLength={4} value={this.state.value} onChange={this.onChangeInput}></input>
         </form>
         <div>tries: {this.state.tries.length}</div>
         <ul>
