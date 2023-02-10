@@ -22,9 +22,13 @@ const getTdStyle = (code) => {
         return {
           background: 'red',
         };
+      case CODE.MINE:
+        return {
+          background: '#444',
+        };
     default:
       return {
-        background: '#444',
+        background: 'white',
       };
   }
 };
@@ -44,7 +48,7 @@ const getTdText = (code) => {
     case CODE.QUESTION_MINE:
       return '?';
     default:
-      return '';
+      return code || '';
   }
 };
 
