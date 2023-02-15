@@ -8,6 +8,7 @@ import GameMatcher from "./GameMatcher";
 const Games = () => {
   //router 사용하려면 브라우저라우터로 최상단을 감싼다
   //route -> link 이용. a 쓰면 안됨
+  // /있고 없고 -> 절대경로 vs 상대경로. 아예 다름
   return(
       <BrowserRouter>
         <Link to="/game/number-baseball?query=100&hello=woojin&bye=react">numberbaseball</Link>
@@ -20,9 +21,7 @@ const Games = () => {
 
         <div>
         <Routes>
-          
           <Route path="/game/*" element={<GameMatcher />} />
-
         </Routes>
         </div>
       </BrowserRouter>
